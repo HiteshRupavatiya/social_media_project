@@ -14,11 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->enum('type', ['Admin', 'User'])->default('User')->after('password');
-            $table->string('provider_id')->nullable()->after('type');
-            $table->string('provider_name')->nullable()->after('provider_id');
-            $table->string('avatar')->nullable()->after('provider_name');
-            $table->softDeletes()->after('updated_at');
+            $table->string('email_verification_token')->nullable()->after('type');
         });
     }
 
@@ -30,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['type', 'provider_id', 'provider_name', 'avatar', 'deleted_at']);
+            $table->dropColumn('email_verification_token');
         });
     }
 };
