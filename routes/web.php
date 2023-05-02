@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\TwoFactorAuthenticationController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,12 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::get('github/callback', 'handleGithubCallback');
     Route::get('login/facebook', 'redirectToFacebook')->name('login.facebook');
     Route::get('login/facebook/callback', 'handleFacebookCallback');
+});
+
+Route::controller(TwoFactorAuthenticationController::class)->prefix('auth')->group(function () {
+    Route::get('two-factor-authentication', 'index')->name('two.factor.authentication.view');
+    Route::post('two-factor-authentication', 'store')->name('two.factor.authentication.store');
+    Route::get('two-factor-authentication/resend', 'resend')->name('two.factor.authentication.resend');
 });
 
 Route::group(['middleware' => 'auth'], function () {

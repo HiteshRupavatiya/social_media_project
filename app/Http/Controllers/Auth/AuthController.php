@@ -64,7 +64,8 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password')) && Auth::user()->email_verified_at) {
-            return redirect()->route('dashboard')->withSuccess("Logged in successfully");
+            Auth::user()->generateCode();
+            return redirect()->route('two.factor.authentication.view')->withSuccess('Two step verification code sent to your mail');
         }
 
         return redirect()->route('login.view')->withError('User creaditials are invalid');
