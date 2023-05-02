@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,13 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
     Route::post('forgot-password', 'forgotPassword')->name('forgot.password');
     Route::get('reset-password/{token}', 'resetPasswordForm')->name('reset.password.view');
     Route::post('reset-password', 'resetPassword')->name('reset.password');
+
+    Route::get('login/google', 'redirectToGoogle')->name('login.google');
+    Route::get('login/google/callback', 'handleGoogleCallback');
+    Route::get('github', 'redirectToGithub')->name('login.github');
+    Route::get('github/callback', 'handleGithubCallback');
+    Route::get('login/facebook', 'redirectToFacebook')->name('login.facebook');
+    Route::get('login/facebook/callback', 'handleFacebookCallback');
 });
 
 Route::group(['middleware' => 'auth'], function () {
