@@ -65,22 +65,20 @@
                             </div>
                             <div class="row">
                                 <div class="col-12 text-center">
-                                    <button type="button" class="btn btn-secondary">Github</button>
-                                    <button type="button" class="btn btn-primary">Facebook</button>
-                                    <button type="button" class="btn btn-danger">Google</button>
+                                    <a href="{{ route('login.github') }}" class="btn btn-dark mt-2">Github</a>
+                                    <a href="{{ route('login.facebook') }}" class="btn btn-primary mt-2">Facebook</a>
+                                    <a href="{{ route('login.google') }}" class="btn btn-danger mt-2">Google</a>
                                 </div>
                             </div>
                     </div>
-                    <br>
                     <div class="row">
                         <div class="col-12 text-center">
-                            <input type="submit" value="Login">
+                            <input type="submit" class="btn btn-primary" value="Login">
                         </div>
                     </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
