@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\PasswordReset;
-use App\Models\User;
+use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -156,5 +158,63 @@ class AuthController extends Controller
         }
 
         return redirect()->back()->withInput()->withError("Invalid Token!");
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        $user = Socialite::driver('google')->user();
+
+        $this->_registerOrLogin($user);
+
+        return redirect()->route('dashboard')->withSuccess('Signed in successfully');
+    }
+
+    public function redirectToGithub()
+    {
+        return Socialite::driver('github')->redirect();
+    }
+
+    public function handleGithubCallback()
+    {
+        $user = Socialite::driver('github')->user();
+
+        $this->_registerOrLogin($user);
+
+        return redirect()->route('dashboard')->withSuccess('Signed in successfully');
+    }
+
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        $user = Socialite::driver('facebook')->user();
+
+        $this->_registerOrLogin($user);
+
+        return redirect()->route('dashboard')->withSuccess('Signed in successfully');
+    }
+
+    public function _registerOrLogin($data)
+    {
+        $user = User::where('email', $data->email)->first();
+
+        if (!$user) {
+            $user = User::create([
+                'name'          => $data->name,
+                'email'         => $data->email,
+                'provider_id'   => $data->id,
+                'avatar'        => $data->avatar
+            ]);
+        }
+
+        Auth::login($user);
     }
 }
