@@ -67,7 +67,7 @@
                                     <a href="{{ route('login.view') }}" class="btn btn-link">Already Have Account</a>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <input type="submit" value="Register">
+                                    <input type="submit" class="btn btn-primary" value="Register">
                                 </div>
                             </div>
                         </form>
